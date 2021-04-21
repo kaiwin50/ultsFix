@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>Cursor wib wab</title>
+    </head>
+    <style>
+        :root{
+            --color: 0;
+            --colorBack: 0;
+        }
+        body{background: black;
+                overflow: visible;}
+        @keyframes wibwab{
+            from{
+            transform: scale(1);
+            }
+            to{
+            transform: scale(2);
+            }
+        }
+        .owo{
+            position: fixed;
+            width: 5vw;
+            height: 10vh;
+            filter: blur(8px);
+            background: hsl(var(--color), 100%, 50%);
+            border-radius: 50%;
+            animation: wibwab 2s infinite alternate;
+        }
+        .bubble{
+            position: fixed;
+            width: 20vw;
+            height: 40vh;
+            filter: blur(15px);
+            background: hsla(var(--colorBack), 100%, 50%, .2);
+            border-radius: 50%;
+            animation: wibwab 3s infinite alternate;
+        }
+    </style>
+    <body>
+
+        <div id="followCursor" class="owo"></div>
+
+
+        <div id="g" class="bubble"></div>
+        <script>
+            let color = 0;
+            let times = 1;
+            let root = document.querySelector(":root");
+            window.addEventListener("mousemove", (e)=>{
+                followCursor.style.top = e.y - 25;
+                followCursor.style.left = e.x -25;
+            })
+            window.addEventListener("click", ()=>{
+                color += 20;
+                console.log(color);
+                root.style.setProperty("--color", color);
+                if(color >= 360)
+                    color = 0;
+            })
+            window.addEventListener("dblclick", (e)=>{
+                root.style.setProperty("--colorBack", color);
+
+                let rx = Math.floor(Math.random()*100);
+                let ry = Math.floor(Math.random()*100);
+                g.style.top = ry+"%";
+                g.style.left = rx+"%";
+            })
+        </script>
+    </body>
+</html>
