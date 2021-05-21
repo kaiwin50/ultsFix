@@ -1,0 +1,23 @@
+---
+layout: default
+---
+
+<div>
+
+    <!-- วน loop ทุก posts ในเว็บเรา -->
+    {% for post in site.posts %}  
+
+    <div>
+
+        <!-- สร้าง link ไปที่ post -->
+        <a href="{{ post.url | relative_url }}">    
+
+            <!-- เอาชื่อ title มาจาก post -->
+            {{ post.title }}             
+        </a>         
+    </div>
+
+    <!-- จบ loop -->
+    {% endfor %}
+
+</div>
