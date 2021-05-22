@@ -13,3 +13,4 @@ Syntax highlighted code block
 **Bold** and _Italic_ and `Code` text
 
 [kuttok](https://github.com/kaiwin50/ultsFix/blob/main/kutyoo.md)
+![img](https://github.com/computer-programming-project-2020/project-code/blob/master/poster.jpg)
