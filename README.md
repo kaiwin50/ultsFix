@@ -12,4 +12,4 @@ Syntax highlighted code block
 
 **Bold** and _Italic_ and `Code` text
 
-[kuttok](https://github.com/kaiwin50/ultsFix/blob/main/kutyoo)
+[kuttok](https://github.com/kaiwin50/ultsFix/blob/main/kutyoo.md)
