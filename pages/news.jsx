@@ -1,33 +1,32 @@
-import { Head, NavBar } from '../components'
+import { Head, NavBar} from '../components'
 import styles from '../styles/Home.module.css'
 import styled, { css, keyframes } from 'styled-components'
 import Slider from 'react-slick';
-import SliderWrapper from './SliderStyle'
+import reacr from 'react';
+import ColorRed from '../public/Test.module.css';
 //import { View, ScrollView } from 'react-native'
 
 //components
 import TextBG from '../components/TextBG'
 import Container from '../components/Container'
-import Card from '../components/NewsCard/Card'
-
-const transL = keyframes`
-    from{
-        transform: translateX(0%);
-        
+import {Card, BlankCard, NewsCard} from '../components/NewsCard'
+const TitleUp = keyframes`
+    from {
+        transform: translateY(30px);
     }
     to{
-        transform: translateX(100%);
+        transform: translateY(0);
     }
 `
-
 const Title = styled.p`
     font-size: 4.5vw;
     color: #ece8e1;
     font-family: Kanit,sans-serif;
     font-weight: bold;
     text-indent: 7.5vw;
-    padding-top: 20vh;
+    padding-top: 30vh;
     margin: 0;
+    animation: ${TitleUp} .5s ease;
     @media (max-width: 1024px){
         text-indent: 0;
     }
@@ -35,19 +34,26 @@ const Title = styled.p`
 const NewsRec = styled.div`
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    height: 150vh;
     background: #0f1923;
-    top: 0;
-    z-index: -1;
 `
 
 const HotNews = styled.div`
     width: 130vw;
     height: 80%;
-    background: #0f1923;
+    background: none;
     position: absolute;
     left: 20vw;
     overflow: visible;
+    &:after{
+        content: "";
+        width: 100vw;
+        height: 30vh;
+        background: #0f1923;
+        position: absolute;
+        bottom: -20vh;
+        z-index: 1;
+    }
     @media (max-width: 1024px){
         position: relative;
         margin-top: 10vh; 
@@ -64,6 +70,7 @@ const WrapNews = styled.div`
     width: 100%;
     overflow-x: visible;
     transition: 1s;
+    z-index: 1;
     @media (max-width: 1024px){
         left: 8vw;
     }
@@ -71,25 +78,80 @@ const WrapNews = styled.div`
 const SliderContainer = styled.div`
     width: 100%;
     height: 100%;
+    z-index: 1;
 `
+const SLickStyle = styled(Slider)`
+    .slick-list {
+        overflow: ${(props) => (props.overflow ? "visible" : "hidden")};
+    }    
+    .slick-slide{
+        float: left;
+        z-index: 0;
+        user-select: none;
+    }
+    .slick-track .slick-active{
+        filter: brightness(70%)
+    }
+    .slick-track .slick-current{
+        filter: brightness(100%);
+    }
+    .slick-dots{
+        position: absolute;
+        left: -250px;
+        top: 50px;
+        width: 200px;
+        height: 6px !important;
+        display: flex;
+        list-style-type: none; 
 
-
-//page: News transform: ;
-
-
+    }
+    .dot-custom{
+        width: 40px;
+        height: 6px;
+        margin-right: 10px;
+        position: relative;
+        background: none;
+        border: .1px solid white;
+        cursor: pointer;
+        transition: .5s;
+    }
+    .slick-dots .slick-active{
+        width: 40px;
+        height: 100%;
+        margin-right: 10px;
+    }
+    .slick-active .dot-custom, .dot-custom:hover{
+        background: #ff4655;
+        border:  1px solid #ff4655;
+    }
+`
+const Box = styled.div`
+    position: relative;
+    width: 100vw;
+    height: 400vh;
+    display: block;
+`
+const NewsContainer = styled(Container)`
+    border-left: none;
+    width: 80%;
+    .news-card:nth-child(even){
+        left: 20%;
+    }
+`
+//page: News transform: ;hover
 
 export default function News() {
-    const data = require("../json/hotNews.json");
+    const data = require("../public/news_content/contents.json");
     var settings = {
         dots: true,
-        infinite: true,
+        infinite: false,
         arrows: false,
         speed: 500,
         slidesToShow: 2,
         slidesToScroll: 1,
         appendDots: dots => <ul>{dots}</ul>,
         customPaging: i => (
-            <div className="ft-slick__dots--custom">
+            <div className="dot-custom">
             </div>
           )
       };
@@ -100,42 +162,49 @@ export default function News() {
         <NavBar />
         <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;600&display=swap" rel="stylesheet"></link>
         <link href="//db.onlinewebfonts.com/c/0201813274259c3d4f78760d19270bab?family=DINNextLTW04-Medium" rel="stylesheet" type="text/css"/>
-        <section>
-        <NewsRec>
-            <h2 className={ styles.stroke }>
-                <TextBG className={ styles.textBackground1 }>WE ARE</TextBG>
-                <TextBG className={ styles.textBackground2 }>VALORANT</TextBG>
-            </h2>
-        </NewsRec>
-        <Container style={{ height: '100vh' }}>
-            <Title className={ styles.resTitle }>แนะนำข่าวสาร</Title>
-            <Container id="Recomend" style={{  height: '100vh', left: -1 }}>
-                <HotNews>
-                        <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
-                        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-                        <WrapNews>
-                            <SliderWrapper>
-                            <SliderContainer>
-                                <Slider {...settings}>
-                                {
-                                    data.map((card, index)=>{
-                                    return  <Card data={card}/>
-                                    })
-                                }
-                                </Slider>
-                            </SliderContainer>
-                            </SliderWrapper>
-
-                        </WrapNews>
-                </HotNews>
+        <Box style={{ height: "150vh" }}>
+            <NewsRec>
+                <h2 className={ styles.stroke }>
+                    <TextBG className={ styles.textBackground1 }>WE ARE</TextBG>
+                    <TextBG className={ styles.textBackground2 }>VALORANT</TextBG>
+                </h2>
+            </NewsRec>
+            <Container style={{ height: '100vh' }}>
+                <Title className={ styles.resTitle }>แนะนำข่าวสาร</Title>
+                <Container id="Recomend" style={{  height: '140vh', left: -1 }}>
+                    <HotNews>
+                            <WrapNews>
+                                <SliderContainer>
+                                    <SLickStyle {...settings}>
+                                    {
+                                        data.HOT_NEWS.map((card, index)=>{
+                                            console.log(index)
+                                        return  <Card key={card.ID} data={card}/>
+                                        })
+                                    }
+                                        <BlankCard style={{ background : "red" }} />
+                                    </SLickStyle>
+                                </SliderContainer>
+                            </WrapNews>
+                    </HotNews>
+                </Container>
             </Container>
-        </Container>
-        </section>
+        </Box>
+        <Box>
+            <Container style={{ borderLeft: "1px solid black"}}>
+                <NewsContainer>
+                    <Title style={{ color: "black", paddingTop: "50vh", textIndent: "0" }}> ข่าวสาร</Title>
+                    {
+                        data.NEWS.map((card)=>{
+                            return <NewsCard data={ card }/>
+                        })
+                    }
+
+                </NewsContainer>
+            </Container>
+        </Box>
+
 
     </>
     )
-
 }
-
-
-
